@@ -1,0 +1,47 @@
+{
+  "name": "dg-cli",
+  "version": "1.0.0",
+  "description": "dg-cli",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf ./bin && mkdir bin",
+    "build": "yarn clean && rollup --config",
+    "start": "npm run clean && NODE_ENV=development rollup -w -c",
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
+  },
+  "author": "",
+  "license": "ISC",
+  "bin": {
+    "dg": "./bin/dg.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "commander": "^7.2.0",
+    "inquirer": "^8.1.0",
+    "log-symbols": "^2.2.0",
+    "ora": "^5.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "@babel/plugin-transform-runtime": "^7.14.3",
+    "@babel/preset-env": "^7.14.2",
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
+    "@rollup/plugin-json": "^4.1.0",
+    "eslint": "^7.27.0",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-eslint": "^7.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-uglify": "^6.0.4"
+  },
+  "lint-staged": {
+    "src/**/*.{jsx,txs,ts,js,json,css,md}": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
+}
