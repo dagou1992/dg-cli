@@ -45,54 +45,56 @@ export default {
 <style ${suffix === 'css' ? ' ' : `lang="${suffix}" `}scoped></style>`;
 
 async function install(dir = '.') {
-  const frameworkList = ['React', 'Vue'];
-  const cssList = ['css', 'less', 'scss'];
-  const { type, name, cssType } = await inquirer.prompt([
-    {
-      type: 'input',
-      name: 'name',
-      message: 'What‘s your project name?',
-    },
-    {
-      type: 'list',
-      name: 'type',
-      message: 'Which framework does your project use',
-      choices: frameworkList,
-    },
-    {
-      type: 'list',
-      name: 'cssType',
-      message: 'Which css does your project use?',
-      choices: cssList,
-    },
-    // {
-    //   type: 'confirm',
-    //   name: 'husky',
-    //   message: 'Does your project use TypeScript?',
-    // },
-  ]);
-  const currentDir = path.join(dir, name);
-  const spinner = ora('Creating...');
-  spinner.start();
-  if (name === '') {
-    spinner.fail();
-    console.log(chalk.red('The project name is empty'));
-    return;
-  }
-  if (fs.existsSync(currentDir)) {
-    spinner.fail();
-    console.log(chalk.red('The project is exist'));
-    const { isDelete } = await inquirer.prompt([
+  try {
+    const frameworkList = ['React', 'Vue'];
+    const cssList = ['css', 'less', 'scss'];
+    const { type, name, cssType } = await inquirer.prompt([
       {
-        type: 'confirm',
-        name: 'isDelete',
-        message: 'Do you want to delete this dir?',
+        type: 'input',
+        name: 'name',
+        message: 'What‘s your project name?',
       },
+      {
+        type: 'list',
+        name: 'type',
+        message: 'Which framework does your project use',
+        choices: frameworkList,
+      },
+      {
+        type: 'list',
+        name: 'cssType',
+        message: 'Which css does your project use?',
+        choices: cssList,
+      },
+      // {
+      //   type: 'confirm',
+      //   name: 'husky',
+      //   message: 'Does your project use TypeScript?',
+      // },
     ]);
-    if (!isDelete) {
+    const currentDir = path.join(dir, name);
+    const spinner = ora('Creating...');
+    spinner.start();
+    if (name === '') {
+      spinner.fail();
+      console.log(chalk.red('The project name is empty'));
       return;
-    } else {
-      deldir(currentDir);
+    }
+    if (fs.existsSync(currentDir)) {
+      spinner.fail();
+      console.log(chalk.red('The project is exist'));
+      const { isDelete } = await inquirer.prompt([
+        {
+          type: 'confirm',
+          name: 'isDelete',
+          message: 'Do you want to delete this dir?',
+        },
+      ]);
+      if (!isDelete) {
+        return;
+      } else {
+        deldir(currentDir);
+      }
     }
     mkdir(currentDir);
     if (type === frameworkList[0]) {
@@ -111,12 +113,14 @@ async function install(dir = '.') {
       );
       spinner.succeed();
     }
+  } catch (err) {
+    console.log(chalk.red(err.message));
   }
 }
 
 const mkdir = dir => fs.mkdirSync(dir, { recursive: true });
 
-function deldir(path) {
+const deldir = path => {
   let files = [];
 
   if (fs.existsSync(path)) {
@@ -134,7 +138,7 @@ function deldir(path) {
 
     fs.rmdirSync(path);
   }
-}
+};
 
 //解析命令行
 cmd.parse(process.argv);

@@ -856,9 +856,10 @@
 	        switch (_context.prev = _context.next) {
 	          case 0:
 	            dir = _args.length > 0 && _args[0] !== undefined ? _args[0] : '.';
+	            _context.prev = 1;
 	            frameworkList = ['React', 'Vue'];
 	            cssList = ['css', 'less', 'scss'];
-	            _context.next = 5;
+	            _context.next = 6;
 	            return inquirer.prompt([{
 	              type: 'input',
 	              name: 'name',
@@ -880,7 +881,7 @@
 	            // },
 	            ]);
 
-	          case 5:
+	          case 6:
 	            _yield$inquirer$promp = _context.sent;
 	            type = _yield$inquirer$promp.type;
 	            name = _yield$inquirer$promp.name;
@@ -890,7 +891,7 @@
 	            spinner.start();
 
 	            if (!(name === '')) {
-	              _context.next = 16;
+	              _context.next = 17;
 	              break;
 	            }
 
@@ -898,36 +899,36 @@
 	            console.log(chalk.red('The project name is empty'));
 	            return _context.abrupt("return");
 
-	          case 16:
+	          case 17:
 	            if (!fs.existsSync(currentDir)) {
-	              _context.next = 31;
+	              _context.next = 29;
 	              break;
 	            }
 
 	            spinner.fail();
 	            console.log(chalk.red('The project is exist'));
-	            _context.next = 21;
+	            _context.next = 22;
 	            return inquirer.prompt([{
 	              type: 'confirm',
 	              name: 'isDelete',
 	              message: 'Do you want to delete this dir?'
 	            }]);
 
-	          case 21:
+	          case 22:
 	            _yield$inquirer$promp2 = _context.sent;
 	            isDelete = _yield$inquirer$promp2.isDelete;
 
 	            if (isDelete) {
-	              _context.next = 27;
+	              _context.next = 28;
 	              break;
 	            }
 
 	            return _context.abrupt("return");
 
-	          case 27:
+	          case 28:
 	            deldir(currentDir);
 
-	          case 28:
+	          case 29:
 	            mkdir(currentDir);
 
 	            if (type === frameworkList[0]) {
@@ -942,12 +943,20 @@
 	              spinner.succeed();
 	            }
 
-	          case 31:
+	            _context.next = 37;
+	            break;
+
+	          case 34:
+	            _context.prev = 34;
+	            _context.t0 = _context["catch"](1);
+	            console.log(chalk.red(_context.t0.message));
+
+	          case 37:
 	          case "end":
 	            return _context.stop();
 	        }
 	      }
-	    }, _callee);
+	    }, _callee, null, [[1, 34]]);
 	  }));
 	  return _install.apply(this, arguments);
 	}
@@ -958,7 +967,7 @@
 	  });
 	};
 
-	function deldir(path) {
+	var deldir = function deldir(path) {
 	  var files = [];
 
 	  if (fs.existsSync(path)) {
@@ -974,7 +983,7 @@
 	    });
 	    fs.rmdirSync(path);
 	  }
-	} //解析命令行
+	}; //解析命令行
 
 
 	cmd.parse(process.argv);

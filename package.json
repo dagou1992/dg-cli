@@ -1,7 +1,7 @@
 {
-  "name": "dg-cli",
+  "name": "dagou-cli",
   "version": "1.0.0",
-  "description": "dg-cli",
+  "description": "dagou-cli",
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf ./bin && mkdir bin",
